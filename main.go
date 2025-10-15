@@ -21,7 +21,6 @@ const (
 	BestOfThree		SeriesType = 3,
 	BestOfFive 		SeriesType = 5,
 	BestOfSeven 	SeriesType = 7,
-	SingleMFV		SeriesType = 0, // use this SeriesType when overriding the default MarginForVictory
 )
 
 type MarginForVictory uint8
@@ -64,12 +63,12 @@ func (m *Match) CalcWinThreshold() (uint8, error) {
 	if m.MatchType == 0 {
 		return 0, fmt.Errorf("unsupported match type")
 	}
-	return uint8(math.Ceil(m.MatchType / 2))
+	return uint8(math.Ceil(m.MatchType / 2)), nil
 }
 
 func (s *MatchSet) CalcWinThreshold() (uint8, error) {
 	if s.SetType == 0 {
 		return 0, fmt.Errorf("unsupported set type")
 	}
-	return uint8(math.Ceil(s.SetType / 2))
+	return uint8(math.Ceil(s.SetType / 2)), nil
 }
