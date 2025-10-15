@@ -55,8 +55,20 @@ type Match struct {
 	LowerSeedParticipant:	TournamentParticipant	`json:"lower_seed"`, // lower seed means a "worse" participant and this a higher number
 }
 
+// configuration options for a tournament bracket
+type TournamentCfg struct {
+	MatchType:				SeriesType = 1			`json:"match_type" default:"1"`, // must be MFV (0) if overriding the Match's MarginForVictory attribute
+	SetType:				SeriesType = 1			`json:"set_type" default:"1"`,
+	MatchMFV:				MarginForVictory = 1	`json:"match_margin_for_victory" default:"1"`,
+	SetMFV:					MarginForVictory = 1	`json:"set_margin_for_victory" default:"1"`,
+}
+
 type TournamentBracket struct {
 	// A tree-like data structure containing Match objects
+}
+
+type TournamentRoundRobin struct {
+	// 
 }
 
 func (m *Match) CalcWinThreshold() (uint8, error) {
@@ -71,4 +83,14 @@ func (s *MatchSet) CalcWinThreshold() (uint8, error) {
 		return 0, fmt.Errorf("unsupported set type")
 	}
 	return uint8(math.Ceil(s.SetType / 2)), nil
+}
+
+// takes a sorted list of participants and generates a tournament bracket tree
+func (tb *TournamentBracket) GenerateBracket([]TournamentParticipant, cfg *TournamentCfg) error {
+
+}
+
+// takes a list of participants and generates a collection of round-robin matches
+func (trr *TournamentRoundRobin) GenerateMatches([]TournamentParticipant, cfg *TournamentCfg) error {
+
 }
