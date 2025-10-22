@@ -5,12 +5,6 @@ import (
 	"math"
 )
 
-type MatchSet struct {
-	Games   map[uint8]GameResult `json:"games"`
-	Id      string               `json:"id"`
-	SetType SeriesType           `json:"set_type" default:"1"`
-}
-
 type Match struct {
 	MatchType            SeriesType            `json:"match_type" default:"1"` // must be MFV (0) if overriding the Match's MarginForVictory attribute
 	MatchMFV             MarginForVictory      `json:"match_margin_for_victory" default:"1"`
@@ -25,13 +19,5 @@ func (m *Match) CalcWinThreshold() (uint8, error) {
 		return 0, fmt.Errorf("unsupported match type")
 	}
 	middle := float64(m.MatchType / 2)
-	return uint8(math.Ceil(middle)), nil
-}
-
-func (s *MatchSet) CalcWinThreshold() (uint8, error) {
-	if s.SetType == 0 {
-		return 0, fmt.Errorf("unsupported set type")
-	}
-	middle := float64(s.SetType / 2)
 	return uint8(math.Ceil(middle)), nil
 }
