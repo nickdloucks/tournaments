@@ -1,5 +1,7 @@
 package entities
 
+import "fmt"
+
 type GameStatus uint8
 
 const (
@@ -7,6 +9,7 @@ const (
 	InProgress
 	Final
 )
+const UnknownGameStatus = "unkown game status"
 
 type GameResult struct {
 	Winner     TournamentParticipant `json:"winner"`
@@ -26,10 +29,19 @@ func (gs GameStatus) String() string {
 	case Final:
 		return "final"
 	default:
-		return "unkown game status"
+		return UnknownGameStatus
 	}
 }
 
-func (gr *GameResult) UpdateGameStatus(gs GameStatus) {
+func (gr *GameResult) UpdateGameStatus(gs GameStatus) error {
+	if gs.String() == UnknownGameStatus {
+		return fmt.Errorf("%v", UnknownGameStatus)
+	}
 	gr.GameStatus = gs
+	return nil
+}
+
+func (gr *GameResult) FinalizeGame() {
+	gr.UpdateGameStatus(Final)
+
 }
