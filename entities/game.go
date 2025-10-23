@@ -29,3 +29,7 @@ func (gs GameStatus) String() string {
 		return "unkown game status"
 	}
 }
+
+func (gr *GameResult) UpdateGameStatus(gs GameStatus) {
+	gr.GameStatus = gs
+}
