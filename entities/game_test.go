@@ -6,13 +6,15 @@ import (
 	// "github.com/nickdloucks/tournaments/tournamenterrors"
 )
 
-func TestSetGameStatus(t *testing.T) {
+func TestSetCompUnitStatus(t *testing.T) {
 	t.Run("using known GameResult type", func(t *testing.T) {
 		testGR := GameResult{
-			GameStatus: Upcoming,
+			CompetitionUnitResult: CompetitionUnitResult{
+				CompUnitStatus: Upcoming,
+			},
 		}
-		testGR.SetGameStatus(Final)
-		got := testGR.GameStatus
+		testGR.SetCompUnitStatus(Final)
+		got := testGR.CompUnitStatus
 		want := Final
 
 		if got != want {
@@ -21,10 +23,12 @@ func TestSetGameStatus(t *testing.T) {
 	})
 	t.Run("using unkown GameResult type", func(t *testing.T) {
 		testGR := GameResult{
-			GameStatus: InProgress,
+			CompetitionUnitResult: CompetitionUnitResult{
+				CompUnitStatus: InProgress,
+			},
 		}
-		got := testGR.SetGameStatus(255)
-		want := UnknownGameStatus
+		got := testGR.SetCompUnitStatus(255)
+		want := UnknownCompUnitStatus
 
 		if got.Error() != want {
 			t.Errorf("got %q want %q", got, want)
@@ -43,7 +47,9 @@ func TestFinalizeGame(t *testing.T) {
 			UndedogOutcome: testPOs[1],
 		}
 		testGR := GameResult{
-			TieAllowed: false,
+			CompetitionUnitResult: CompetitionUnitResult{
+				TieAllowed: false,
+			},
 		}
 		got := testGR.FinalizeGame(testPair)
 		want := ErrImpermissibleTie
@@ -63,7 +69,9 @@ func TestFinalizeGame(t *testing.T) {
 			UndedogOutcome: testPOs[1],
 		}
 		testGR := GameResult{
-			TieAllowed: false,
+			CompetitionUnitResult: CompetitionUnitResult{
+				TieAllowed: false,
+			},
 		}
 		testGR.FinalizeGame(testPair)
 		got := testGR.Winner
@@ -83,7 +91,9 @@ func TestFinalizeGame(t *testing.T) {
 			UndedogOutcome: testPOs[1],
 		}
 		testGR := GameResult{
-			TieAllowed: true,
+			CompetitionUnitResult: CompetitionUnitResult{
+				TieAllowed: true,
+			},
 		}
 		testGR.FinalizeGame(testPair)
 		got := testGR.Winner
@@ -103,11 +113,13 @@ func TestFinalizeGame(t *testing.T) {
 			UndedogOutcome: testPOs[1],
 		}
 		testGR := GameResult{
-			GameStatus: InProgress,
-			TieAllowed: true,
+			CompetitionUnitResult: CompetitionUnitResult{
+				CompUnitStatus: InProgress,
+				TieAllowed: true,
+			},
 		}
 		testGR.FinalizeGame(testPair)
-		got := testGR.GameStatus
+		got := testGR.CompUnitStatus
 		want := Final
 		if got != want {
 			t.Errorf("got %q want %q", got, want)

@@ -11,6 +11,11 @@ type MatchSet struct {
 	SetType SeriesType           `json:"set_type" default:"1"`
 }
 
+type MatchSetResult struct {
+	CompetitionUnitResult
+	Games 	[]GameResult
+}
+
 func (s *MatchSet) CalcWinThreshold() (uint8, error) {
 	if s.SetType == 0 {
 		return 0, fmt.Errorf("unsupported set type")

@@ -5,36 +5,43 @@ import (
 	"fmt"
 )
 
-type GameStatus uint8
+type CompUnitStatus uint8
 
 const (
-	Upcoming GameStatus = iota
+	Upcoming CompUnitStatus = iota
 	InProgress
 	Final
 )
-const UnknownGameStatus = "unkown game status"
+const UnknownCompUnitStatus = "unkown game status"
 
-// The participant and their final score in a game, set, or match
+// The participant and their final score in a competition unit (game, set, or match)
 type ParticipantOutcome struct {
 	Participant TournamentParticipant `json:"participant"`
 	Score       uint8                 `json:"score"`
 }
 
+// Maps the two participants to their score in a competition unit (game, set, or match)
 type OutcomePair struct {
 	FavoriteOutcome ParticipantOutcome `json:"favorite_outcome"`
 	UndedogOutcome  ParticipantOutcome `json:"underdog_outcome"`
 }
 
 type GameResult struct {
-	Winner     ParticipantOutcome `json:"winner"`
-	Loser      ParticipantOutcome `json:"loser"`
-	GameStatus GameStatus         `json:"game_status"`
-	TieAllowed bool               `json:"tie_allowed"`
+	CompetitionUnitResult
+	Id string
 }
 
-// Displays a string representation of the game state. 
+// Generic type to represent the state of any competition unit (game, set, or matche)
+type CompetitionUnitResult struct {
+	Winner         ParticipantOutcome `json:"winner"`
+	Loser          ParticipantOutcome `json:"loser"`
+	CompUnitStatus CompUnitStatus         `json:"game_status"`
+	TieAllowed     bool               `json:"tie_allowed"`
+}
+
+// Displays a string representation of the game state.
 // Uses a value-receiver as it is intended to be used for read-only.
-func (gs GameStatus) String() string {
+func (gs CompUnitStatus) String() string {
 	switch gs {
 	case Upcoming:
 		return "upcoming"
@@ -43,16 +50,15 @@ func (gs GameStatus) String() string {
 	case Final:
 		return "final"
 	default:
-		return UnknownGameStatus
+		return UnknownCompUnitStatus
 	}
 }
 
-// 
-func (gr *GameResult) SetGameStatus(gs GameStatus) error {
-	if gs.String() == UnknownGameStatus {
-		return fmt.Errorf("%v", UnknownGameStatus)
+func (gr *GameResult) SetCompUnitStatus(gs CompUnitStatus) error {
+	if gs.String() == UnknownCompUnitStatus {
+		return fmt.Errorf("%v", UnknownCompUnitStatus)
 	}
-	gr.GameStatus = gs
+	gr.CompUnitStatus = gs
 	return nil
 }
 
@@ -65,7 +71,6 @@ var (
 func (e SimpleError) Error() string {
 	return string(e)
 }
-
 
 // Updates the game status and declares the winner and loser.
 // If the final score is tied AND a tie is permitted for this game, the "winner" will be the participant with the better seed.
@@ -84,6 +89,6 @@ func (gr *GameResult) FinalizeGame(resultPair OutcomePair) error {
 		gr.Winner = resultPair.UndedogOutcome
 		gr.Loser = resultPair.FavoriteOutcome
 	}
-	gr.SetGameStatus(Final)
+	gr.SetCompUnitStatus(Final)
 	return nil
 }
