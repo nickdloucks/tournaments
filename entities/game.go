@@ -5,19 +5,21 @@ import (
 	"fmt"
 )
 
+// The status of a competition unit (game, set, or match)
 type CompUnitStatus uint8
 
 const (
-	Upcoming CompUnitStatus = iota
+	TBA	CompUnitStatus = iota // not yet scheduled
+	Upcoming 
 	InProgress
 	Final
 )
-const UnknownCompUnitStatus = "unkown game status"
+const UnknownCompUnitStatus = "unkown status"
 
 // The participant and their final score in a competition unit (game, set, or match)
 type ParticipantOutcome struct {
 	Participant TournamentParticipant `json:"participant"`
-	Score       uint8                 `json:"score"`
+	Score       uint8                 `json:"score"` // Score can be points scored in a game, games won in a set, or sets won in a match
 }
 
 // Maps the two participants to their score in a competition unit (game, set, or match)
@@ -35,14 +37,16 @@ type GameResult struct {
 type CompetitionUnitResult struct {
 	Winner         ParticipantOutcome `json:"winner"`
 	Loser          ParticipantOutcome `json:"loser"`
-	CompUnitStatus CompUnitStatus         `json:"game_status"`
+	CompUnitStatus CompUnitStatus     `json:"game_status"`
 	TieAllowed     bool               `json:"tie_allowed"`
 }
 
 // Displays a string representation of the game state.
 // Uses a value-receiver as it is intended to be used for read-only.
-func (gs CompUnitStatus) String() string {
-	switch gs {
+func (c CompUnitStatus) String() string {
+	switch c {
+	case TBA:
+		return "TBA"
 	case Upcoming:
 		return "upcoming"
 	case InProgress:
@@ -54,11 +58,11 @@ func (gs CompUnitStatus) String() string {
 	}
 }
 
-func (gr *GameResult) SetCompUnitStatus(gs CompUnitStatus) error {
-	if gs.String() == UnknownCompUnitStatus {
+func (gr *GameResult) SetCompUnitStatus(s CompUnitStatus) error {
+	if s.String() == UnknownCompUnitStatus {
 		return fmt.Errorf("%v", UnknownCompUnitStatus)
 	}
-	gr.CompUnitStatus = gs
+	gr.CompUnitStatus = s
 	return nil
 }
 
