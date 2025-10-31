@@ -2,10 +2,10 @@ package entities
 
 // configuration options for a tournament bracket
 type TournamentCfg struct {
-	MatchType SeriesType       `json:"match_type" default:"1"` // must be MFV (0) if overriding the Match's MarginForVictory attribute
-	SetType   SeriesType       `json:"set_type" default:"1"`
-	MatchMFV  MarginForVictory `json:"match_margin_for_victory" default:"1"`
-	SetMFV    MarginForVictory `json:"set_margin_for_victory" default:"1"`
+	MatchType  SeriesType       `json:"match_type" default:"1"` // must be MFV (0) if overriding the Match's MarginForVictory attribute
+	SetType    SeriesType       `json:"set_type" default:"1"`
+	MFVInMatch MarginForVictory `json:"margin_for_victory_in_match" default:"1"`
+	MFVInSet   MarginForVictory `json:"margin_for_victory_in_set" default:"1"`
 }
 
 type TournamentBracket struct {
