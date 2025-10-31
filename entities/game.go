@@ -5,11 +5,15 @@ import (
 )
 
 type GameEvent struct {
+	Id             string
+	HomeOrFav      TournamentParticipant
+	AwayOrUnderdog TournamentParticipant
 	CompetitionEventResult
-	Id string
 }
 
-
+func NewGameEvent(homeOrFavored TournamentParticipant, awayOrUnderdog TournamentParticipant) GameEvent {
+	return GameEvent{}
+}
 
 func (ge *GameEvent) SetCompUnitStatus(s CompUnitStatus) error {
 	if s.String() == UnknownCompUnitStatus {
@@ -18,7 +22,6 @@ func (ge *GameEvent) SetCompUnitStatus(s CompUnitStatus) error {
 	ge.CompUnitStatus = s
 	return nil
 }
-
 
 // Updates the game status and declares the winner and loser.
 // If the final score is tied AND a tie is permitted for this game, the "winner" will be the participant with the better seed.

@@ -2,9 +2,33 @@ package entities
 
 import (
 	"reflect"
+	"strings"
 	"testing"
-	// "github.com/nickdloucks/tournaments/tournamenterrors"
 )
+
+func TestNewGameEvent(t *testing.T) {
+	t.Run("init game event with two actual participants", func(t *testing.T) {
+		teamA := TournamentParticipant{Name: "team_A",}
+		teamB := TournamentParticipant{Name: "team_B",}
+
+		got := NewGameEvent(teamA, teamB)
+		want := GameEvent{
+			CompetitionEventResult: CompetitionEventResult{CompUnitStatus: Upcoming},
+			HomeOrFav: teamA,
+			AwayOrUnderdog: teamB,
+		}
+		if !reflect.DeepEqual(got, want) {
+			gotStr := strings.Join([]string{got.HomeOrFav.Name, got.AwayOrUnderdog.Name}, " vs. ")
+			gotStr = gotStr + " | status: " + got.CompUnitStatus.String()
+			wantStr := strings.Join([]string{want.HomeOrFav.Name, want.AwayOrUnderdog.Name}, " vs. ")
+			wantStr = wantStr + " | status: " + want.CompUnitStatus.String()
+			t.Errorf("got %q want %q", 
+				gotStr, 
+				wantStr,
+			)
+		}
+	})
+}
 
 func TestSetCompUnitStatus(t *testing.T) {
 	t.Run("using known GameEvent type", func(t *testing.T) {
