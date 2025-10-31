@@ -6,12 +6,14 @@ import (
 
 type GameEvent struct {
 	Id             string
-	HomeOrFav      TournamentParticipant
-	AwayOrUnderdog TournamentParticipant
+	ParentMatch    *MatchEvent
+	ParentSet      *MatchSetEvent
+	HomeOrFav      *TournamentParticipant
+	AwayOrUnderdog *TournamentParticipant
 	CompetitionEventResult
 }
 
-func NewGameEvent(homeOrFavored TournamentParticipant, awayOrUnderdog TournamentParticipant, tieAllowed bool, invitesDeferred bool) GameEvent {
+func NewGameEvent(homeOrFavored *TournamentParticipant, awayOrUnderdog *TournamentParticipant, tieAllowed bool, invitesDeferred bool) GameEvent {
 	var initialStatus CompUnitStatus
 	if invitesDeferred { // game will be scheduled, but Participants are not yet being invited
 		initialStatus = TBA

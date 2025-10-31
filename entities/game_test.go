@@ -11,11 +11,11 @@ func TestNewGameEvent(t *testing.T) {
 		teamA := TournamentParticipant{Name: "team_A"}
 		teamB := TournamentParticipant{Name: "team_B"}
 
-		got := NewGameEvent(teamA, teamB, false, false)
+		got := NewGameEvent(&teamA, &teamB, false, false)
 		want := GameEvent{
 			CompetitionEventResult: CompetitionEventResult{CompUnitStatus: Upcoming},
-			HomeOrFav:              teamA,
-			AwayOrUnderdog:         teamB,
+			HomeOrFav:              &teamA,
+			AwayOrUnderdog:         &teamB,
 		}
 		if !reflect.DeepEqual(got, want) {
 			gotStr := strings.Join([]string{got.HomeOrFav.Name, got.AwayOrUnderdog.Name}, " vs. ")
@@ -32,11 +32,11 @@ func TestNewGameEvent(t *testing.T) {
 		teamA := TournamentParticipant{Name: "team_A"}
 		teamB := NewGenericParticipant(ByeParticipantName)
 
-		got := NewGameEvent(teamA, teamB, false, false)
+		got := NewGameEvent(&teamA, &teamB, false, false)
 		want := GameEvent{
 			CompetitionEventResult: CompetitionEventResult{CompUnitStatus: Upcoming},
-			HomeOrFav:              teamA,
-			AwayOrUnderdog:         teamB,
+			HomeOrFav:              &teamA,
+			AwayOrUnderdog:         &teamB,
 		}
 		if !reflect.DeepEqual(got, want) {
 			gotStr := strings.Join([]string{got.HomeOrFav.Name, got.AwayOrUnderdog.Name}, " vs. ")
@@ -53,11 +53,11 @@ func TestNewGameEvent(t *testing.T) {
 		teamA := NewGenericParticipant(TbaParticipantName)
 		teamB := NewGenericParticipant(TbaParticipantName)
 
-		got := NewGameEvent( teamA, teamB, false, true)
+		got := NewGameEvent(&teamA, &teamB, false, true)
 		want := GameEvent{
 			CompetitionEventResult: CompetitionEventResult{CompUnitStatus: TBA},
-			HomeOrFav:              teamA,
-			AwayOrUnderdog:         teamB,
+			HomeOrFav:              &teamA,
+			AwayOrUnderdog:         &teamB,
 		}
 		if !reflect.DeepEqual(got, want) {
 			gotStr := strings.Join([]string{got.HomeOrFav.Name, got.AwayOrUnderdog.Name}, " vs. ")
