@@ -9,22 +9,7 @@ type GameEvent struct {
 	Id string
 }
 
-// Displays a string representation of the game state.
-// Uses a value-receiver as it is intended to be used for read-only.
-func (c CompUnitStatus) String() string {
-	switch c {
-	case TBA:
-		return "TBA"
-	case Upcoming:
-		return "upcoming"
-	case InProgress:
-		return "in-progress"
-	case Final:
-		return "final"
-	default:
-		return UnknownCompUnitStatus
-	}
-}
+
 
 func (gr *GameEvent) SetCompUnitStatus(s CompUnitStatus) error {
 	if s.String() == UnknownCompUnitStatus {
