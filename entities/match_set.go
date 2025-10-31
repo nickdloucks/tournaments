@@ -6,12 +6,15 @@ import (
 )
 
 type MatchSetEvent struct {
-	Id             string              `json:"id"` // uuid V7
-	Games          map[uint8]GameEvent `json:"games"`
-	SetType        SeriesType          `json:"set_type" default:"1"`
-	ParentMatch    *MatchEvent
-	HomeOrFav      *TournamentParticipant
-	AwayOrUnderdog *TournamentParticipant
+	Id                     string               `json:"id"` // uuid V7
+	SetType                SeriesType           `json:"set_type" default:"1"`
+	MFVInSet               MarginForVictory     `json:"margin_for_victory_in_set" default:"1"`
+	Games                  map[uint8]*GameEvent `json:"games"`
+	ParentMatch            *MatchEvent
+	HomeOrFav              *TournamentParticipant
+	AwayOrUnderdog         *TournamentParticipant
+	HomeOrFavGamesWon      uint8 `json:"home_or_fav_games_won"`
+	AwayOrUnderdogGamesWon uint8 `json:"away_or_underdog_games_won"`
 	CompetitionEventResult
 }
 
