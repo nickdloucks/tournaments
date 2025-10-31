@@ -11,9 +11,12 @@ type GameEvent struct {
 	CompetitionEventResult
 }
 
-func NewGameEvent(homeOrFavored TournamentParticipant, awayOrUnderdog TournamentParticipant) GameEvent {
+func NewGameEvent(homeOrFavored TournamentParticipant, awayOrUnderdog TournamentParticipant, tieAllowed bool) GameEvent {
 	return GameEvent{
-		CompetitionEventResult: CompetitionEventResult{CompUnitStatus: Upcoming},
+		CompetitionEventResult: CompetitionEventResult{
+			CompUnitStatus: Upcoming,
+			TieAllowed: tieAllowed,
+		},
 		HomeOrFav:              homeOrFavored,
 		AwayOrUnderdog:         awayOrUnderdog,
 	}

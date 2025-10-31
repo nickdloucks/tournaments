@@ -11,7 +11,7 @@ func TestNewGameEvent(t *testing.T) {
 		teamA := TournamentParticipant{Name: "team_A"}
 		teamB := TournamentParticipant{Name: "team_B"}
 
-		got := NewGameEvent(teamA, teamB)
+		got := NewGameEvent(teamA, teamB, false)
 		want := GameEvent{
 			CompetitionEventResult: CompetitionEventResult{CompUnitStatus: Upcoming},
 			HomeOrFav:              teamA,
@@ -32,7 +32,7 @@ func TestNewGameEvent(t *testing.T) {
 		teamA := TournamentParticipant{Name: "team_A"}
 		teamB := TournamentParticipant{Name: "BYE"}
 
-		got := NewGameEvent(teamA, NewByeParticipant())
+		got := NewGameEvent(teamA, NewByeParticipant(), false)
 		want := GameEvent{
 			CompetitionEventResult: CompetitionEventResult{CompUnitStatus: Upcoming},
 			HomeOrFav:              teamA,
