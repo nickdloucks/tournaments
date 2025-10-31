@@ -8,13 +8,13 @@ import (
 
 func TestSetCompUnitStatus(t *testing.T) {
 	t.Run("using known GameEvent type", func(t *testing.T) {
-		testGR := GameEvent{
+		testGE := GameEvent{
 			CompetitionEventResult: CompetitionEventResult{
 				CompUnitStatus: Upcoming,
 			},
 		}
-		testGR.SetCompUnitStatus(Final)
-		got := testGR.CompUnitStatus
+		testGE.SetCompUnitStatus(Final)
+		got := testGE.CompUnitStatus
 		want := Final
 
 		if got != want {
@@ -22,12 +22,12 @@ func TestSetCompUnitStatus(t *testing.T) {
 		}
 	})
 	t.Run("using unkown GameEvent type", func(t *testing.T) {
-		testGR := GameEvent{
+		testGE := GameEvent{
 			CompetitionEventResult: CompetitionEventResult{
 				CompUnitStatus: InProgress,
 			},
 		}
-		got := testGR.SetCompUnitStatus(255)
+		got := testGE.SetCompUnitStatus(255)
 		want := UnknownCompUnitStatus
 
 		if got.Error() != want {
@@ -46,17 +46,17 @@ func TestFinalizeGame(t *testing.T) {
 			FavoriteOutcome: testPOs[0],
 			UndedogOutcome:  testPOs[1],
 		}
-		testGR := GameEvent{
+		testGE := GameEvent{
 			CompetitionEventResult: CompetitionEventResult{
 				TieAllowed: false,
 			},
 		}
-		got := testGR.FinalizeGame(testPair)
+		got := testGE.FinalizeGame(testPair)
 		want := ErrImpermissibleTie
 		if got == nil {
-			t.Errorf("impermissible tie score: %v-%v. got %s want %s", testGR.Winner.Score, testGR.Loser.Score, got, want.Error())
+			t.Errorf("impermissible tie score: %v-%v. got %s want %s", testGE.Winner.Score, testGE.Loser.Score, got, want.Error())
 		} else if got != want {
-			t.Errorf("impermissible tie score: %v-%v. got %s want %s", testGR.Winner.Score, testGR.Loser.Score, got.Error(), want.Error())
+			t.Errorf("impermissible tie score: %v-%v. got %s want %s", testGE.Winner.Score, testGE.Loser.Score, got.Error(), want.Error())
 		}
 	})
 	t.Run("winner selection based on score", func(t *testing.T) {
@@ -68,13 +68,13 @@ func TestFinalizeGame(t *testing.T) {
 			FavoriteOutcome: testPOs[0],
 			UndedogOutcome:  testPOs[1],
 		}
-		testGR := GameEvent{
+		testGE := GameEvent{
 			CompetitionEventResult: CompetitionEventResult{
 				TieAllowed: false,
 			},
 		}
-		testGR.FinalizeGame(testPair)
-		got := testGR.Winner
+		testGE.FinalizeGame(testPair)
+		got := testGE.Winner
 		want := testPOs[1]
 
 		if !reflect.DeepEqual(got, want) {
@@ -90,13 +90,13 @@ func TestFinalizeGame(t *testing.T) {
 			FavoriteOutcome: testPOs[0],
 			UndedogOutcome:  testPOs[1],
 		}
-		testGR := GameEvent{
+		testGE := GameEvent{
 			CompetitionEventResult: CompetitionEventResult{
 				TieAllowed: true,
 			},
 		}
-		testGR.FinalizeGame(testPair)
-		got := testGR.Winner
+		testGE.FinalizeGame(testPair)
+		got := testGE.Winner
 		want := testPOs[0]
 
 		if !reflect.DeepEqual(got, want) {
@@ -112,14 +112,14 @@ func TestFinalizeGame(t *testing.T) {
 			FavoriteOutcome: testPOs[0],
 			UndedogOutcome:  testPOs[1],
 		}
-		testGR := GameEvent{
+		testGE := GameEvent{
 			CompetitionEventResult: CompetitionEventResult{
 				CompUnitStatus: InProgress,
 				TieAllowed:     true,
 			},
 		}
-		testGR.FinalizeGame(testPair)
-		got := testGR.CompUnitStatus
+		testGE.FinalizeGame(testPair)
+		got := testGE.CompUnitStatus
 		want := Final
 		if got != want {
 			t.Errorf("got %q want %q", got, want)
