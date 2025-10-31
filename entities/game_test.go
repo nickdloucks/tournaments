@@ -53,9 +53,9 @@ func TestNewGameEvent(t *testing.T) {
 		teamA := NewGenericParticipant(TbaParticipantName)
 		teamB := NewGenericParticipant(TbaParticipantName)
 
-		got := NewGameEvent( teamA, teamB, false, true,)
+		got := NewGameEvent( teamA, teamB, false, true)
 		want := GameEvent{
-			CompetitionEventResult: CompetitionEventResult{CompUnitStatus: Upcoming},
+			CompetitionEventResult: CompetitionEventResult{CompUnitStatus: TBA},
 			HomeOrFav:              teamA,
 			AwayOrUnderdog:         teamB,
 		}
