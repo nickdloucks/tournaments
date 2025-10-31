@@ -6,14 +6,14 @@ import (
 )
 
 type MatchSet struct {
-	Games   map[uint8]GameResult `json:"games"`
-	Id      string               `json:"id"`
-	SetType SeriesType           `json:"set_type" default:"1"`
+	Games   map[uint8]GameEvent `json:"games"`
+	Id      string              `json:"id"`
+	SetType SeriesType          `json:"set_type" default:"1"`
 }
 
 type MatchSetResult struct {
-	CompetitionUnitResult
-	Games 	[]GameResult
+	CompetitionEventResult
+	Games []GameEvent
 }
 
 func (s *MatchSet) CalcWinThreshold() (uint8, error) {
