@@ -11,7 +11,7 @@ func TestNewGameEvent(t *testing.T) {
 		teamA := TournamentParticipant{Name: "team_A"}
 		teamB := TournamentParticipant{Name: "team_B"}
 
-		got := NewGameEvent(teamA, teamB, false)
+		got := NewGameEvent(teamA, teamB, false, false)
 		want := GameEvent{
 			CompetitionEventResult: CompetitionEventResult{CompUnitStatus: Upcoming},
 			HomeOrFav:              teamA,
@@ -30,9 +30,30 @@ func TestNewGameEvent(t *testing.T) {
 	})
 	t.Run("init game event with only one actual participant", func(t *testing.T) {
 		teamA := TournamentParticipant{Name: "team_A"}
-		teamB := TournamentParticipant{Name: "BYE"}
+		teamB := NewGenericParticipant(ByeParticipantName)
 
-		got := NewGameEvent(teamA, NewByeParticipant(), false)
+		got := NewGameEvent(teamA, teamB, false, false)
+		want := GameEvent{
+			CompetitionEventResult: CompetitionEventResult{CompUnitStatus: Upcoming},
+			HomeOrFav:              teamA,
+			AwayOrUnderdog:         teamB,
+		}
+		if !reflect.DeepEqual(got, want) {
+			gotStr := strings.Join([]string{got.HomeOrFav.Name, got.AwayOrUnderdog.Name}, " vs. ")
+			gotStr = gotStr + " | status: " + got.CompUnitStatus.String()
+			wantStr := strings.Join([]string{want.HomeOrFav.Name, want.AwayOrUnderdog.Name}, " vs. ")
+			wantStr = wantStr + " | status: " + want.CompUnitStatus.String()
+			t.Errorf("got %q want %q",
+				gotStr,
+				wantStr,
+			)
+		}
+	})
+	t.Run("init game event with zero actual participant", func(t *testing.T) {
+		teamA := NewGenericParticipant(TbaParticipantName)
+		teamB := NewGenericParticipant(TbaParticipantName)
+
+		got := NewGameEvent( teamA, teamB, false, true,)
 		want := GameEvent{
 			CompetitionEventResult: CompetitionEventResult{CompUnitStatus: Upcoming},
 			HomeOrFav:              teamA,
