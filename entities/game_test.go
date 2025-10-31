@@ -8,43 +8,43 @@ import (
 
 func TestNewGameEvent(t *testing.T) {
 	t.Run("init game event with two actual participants", func(t *testing.T) {
-		teamA := TournamentParticipant{Name: "team_A",}
-		teamB := TournamentParticipant{Name: "team_B",}
+		teamA := TournamentParticipant{Name: "team_A"}
+		teamB := TournamentParticipant{Name: "team_B"}
 
 		got := NewGameEvent(teamA, teamB)
 		want := GameEvent{
 			CompetitionEventResult: CompetitionEventResult{CompUnitStatus: Upcoming},
-			HomeOrFav: teamA,
-			AwayOrUnderdog: teamB,
+			HomeOrFav:              teamA,
+			AwayOrUnderdog:         teamB,
 		}
 		if !reflect.DeepEqual(got, want) {
 			gotStr := strings.Join([]string{got.HomeOrFav.Name, got.AwayOrUnderdog.Name}, " vs. ")
 			gotStr = gotStr + " | status: " + got.CompUnitStatus.String()
 			wantStr := strings.Join([]string{want.HomeOrFav.Name, want.AwayOrUnderdog.Name}, " vs. ")
 			wantStr = wantStr + " | status: " + want.CompUnitStatus.String()
-			t.Errorf("got %q want %q", 
-				gotStr, 
+			t.Errorf("got %q want %q",
+				gotStr,
 				wantStr,
 			)
 		}
 	})
 	t.Run("init game event with only one actual participant", func(t *testing.T) {
-		teamA := TournamentParticipant{Name: "team_A",}
-		teamB := TournamentParticipant{Name: "BYE",}
+		teamA := TournamentParticipant{Name: "team_A"}
+		teamB := TournamentParticipant{Name: "BYE"}
 
 		got := NewGameEvent(teamA, NewByeParticipant())
 		want := GameEvent{
 			CompetitionEventResult: CompetitionEventResult{CompUnitStatus: Upcoming},
-			HomeOrFav: teamA,
-			AwayOrUnderdog: teamB,
+			HomeOrFav:              teamA,
+			AwayOrUnderdog:         teamB,
 		}
 		if !reflect.DeepEqual(got, want) {
 			gotStr := strings.Join([]string{got.HomeOrFav.Name, got.AwayOrUnderdog.Name}, " vs. ")
 			gotStr = gotStr + " | status: " + got.CompUnitStatus.String()
 			wantStr := strings.Join([]string{want.HomeOrFav.Name, want.AwayOrUnderdog.Name}, " vs. ")
 			wantStr = wantStr + " | status: " + want.CompUnitStatus.String()
-			t.Errorf("got %q want %q", 
-				gotStr, 
+			t.Errorf("got %q want %q",
+				gotStr,
 				wantStr,
 			)
 		}
@@ -88,8 +88,8 @@ func TestFinalizeGame(t *testing.T) {
 			{Participant: TournamentParticipant{}, Score: 0},
 		}
 		testPair := OutcomePair{
-			FavoriteOutcome: testPOs[0],
-			UndedogOutcome:  testPOs[1],
+			HomeOrFavOutcome:     testPOs[0],
+			AwayOrUndedogOutcome: testPOs[1],
 		}
 		testGE := GameEvent{
 			CompetitionEventResult: CompetitionEventResult{
@@ -110,8 +110,8 @@ func TestFinalizeGame(t *testing.T) {
 			{Participant: TournamentParticipant{Name: "team-with-seed2-and-score2", Seed: 2}, Score: 2},
 		}
 		testPair := OutcomePair{
-			FavoriteOutcome: testPOs[0],
-			UndedogOutcome:  testPOs[1],
+			HomeOrFavOutcome:     testPOs[0],
+			AwayOrUndedogOutcome: testPOs[1],
 		}
 		testGE := GameEvent{
 			CompetitionEventResult: CompetitionEventResult{
@@ -132,8 +132,8 @@ func TestFinalizeGame(t *testing.T) {
 			{Participant: TournamentParticipant{Name: "team-with-seed2-and-score0", Seed: 2}, Score: 0},
 		}
 		testPair := OutcomePair{
-			FavoriteOutcome: testPOs[0],
-			UndedogOutcome:  testPOs[1],
+			HomeOrFavOutcome:     testPOs[0],
+			AwayOrUndedogOutcome: testPOs[1],
 		}
 		testGE := GameEvent{
 			CompetitionEventResult: CompetitionEventResult{
@@ -154,8 +154,8 @@ func TestFinalizeGame(t *testing.T) {
 			{Participant: TournamentParticipant{Name: "team-with-seed2-and-score0", Seed: 2}, Score: 0},
 		}
 		testPair := OutcomePair{
-			FavoriteOutcome: testPOs[0],
-			UndedogOutcome:  testPOs[1],
+			HomeOrFavOutcome:     testPOs[0],
+			AwayOrUndedogOutcome: testPOs[1],
 		}
 		testGE := GameEvent{
 			CompetitionEventResult: CompetitionEventResult{

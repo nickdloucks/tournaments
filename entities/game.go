@@ -14,8 +14,8 @@ type GameEvent struct {
 func NewGameEvent(homeOrFavored TournamentParticipant, awayOrUnderdog TournamentParticipant) GameEvent {
 	return GameEvent{
 		CompetitionEventResult: CompetitionEventResult{CompUnitStatus: Upcoming},
-		HomeOrFav: homeOrFavored,
-		AwayOrUnderdog: awayOrUnderdog,
+		HomeOrFav:              homeOrFavored,
+		AwayOrUnderdog:         awayOrUnderdog,
 	}
 }
 
@@ -30,19 +30,19 @@ func (ge *GameEvent) SetCompUnitStatus(s CompUnitStatus) error {
 // Updates the game status and declares the winner and loser.
 // If the final score is tied AND a tie is permitted for this game, the "winner" will be the participant with the better seed.
 func (ge *GameEvent) FinalizeGame(resultPair OutcomePair) error {
-	if resultPair.FavoriteOutcome.Score == resultPair.UndedogOutcome.Score {
+	if resultPair.HomeOrFavOutcome.Score == resultPair.AwayOrUndedogOutcome.Score {
 		if ge.TieAllowed {
-			ge.Winner = resultPair.FavoriteOutcome
-			ge.Loser = resultPair.UndedogOutcome
+			ge.Winner = resultPair.HomeOrFavOutcome
+			ge.Loser = resultPair.AwayOrUndedogOutcome
 		} else {
 			return ErrImpermissibleTie
 		}
-	} else if resultPair.FavoriteOutcome.Score > resultPair.UndedogOutcome.Score {
-		ge.Winner = resultPair.FavoriteOutcome
-		ge.Loser = resultPair.UndedogOutcome
+	} else if resultPair.HomeOrFavOutcome.Score > resultPair.AwayOrUndedogOutcome.Score {
+		ge.Winner = resultPair.HomeOrFavOutcome
+		ge.Loser = resultPair.AwayOrUndedogOutcome
 	} else { // underdog has higher score
-		ge.Winner = resultPair.UndedogOutcome
-		ge.Loser = resultPair.FavoriteOutcome
+		ge.Winner = resultPair.AwayOrUndedogOutcome
+		ge.Loser = resultPair.HomeOrFavOutcome
 	}
 	ge.SetCompUnitStatus(Final)
 	return nil

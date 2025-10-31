@@ -1,6 +1,5 @@
 package entities
 
-
 // The status of a competition unit (game, set, or match)
 type CompUnitStatus uint8
 
@@ -50,15 +49,14 @@ type ParticipantOutcome struct {
 
 // Maps the two participants to their score in a competition unit (game, set, or match)
 type OutcomePair struct {
-	FavoriteOutcome ParticipantOutcome `json:"favorite_outcome"`
-	UndedogOutcome  ParticipantOutcome `json:"underdog_outcome"`
+	HomeOrFavOutcome     ParticipantOutcome `json:"home_or_favorite_outcome"`
+	AwayOrUndedogOutcome ParticipantOutcome `json:"away_or_underdog_outcome"`
 }
 
 // Generic type to represent the state of any competition unit (game, set, or match)
 type CompetitionEventResult struct {
 	Winner         ParticipantOutcome `json:"winner"`
 	Loser          ParticipantOutcome `json:"loser"`
-	CompUnitStatus CompUnitStatus     `json:"game_status"`
+	CompUnitStatus CompUnitStatus     `json:"competition_unit_status"`
 	TieAllowed     bool               `json:"tie_allowed"`
 }
-
