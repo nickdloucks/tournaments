@@ -12,7 +12,11 @@ type GameEvent struct {
 }
 
 func NewGameEvent(homeOrFavored TournamentParticipant, awayOrUnderdog TournamentParticipant) GameEvent {
-	return GameEvent{}
+	return GameEvent{
+		CompetitionEventResult: CompetitionEventResult{CompUnitStatus: Upcoming},
+		HomeOrFav: homeOrFavored,
+		AwayOrUnderdog: awayOrUnderdog,
+	}
 }
 
 func (ge *GameEvent) SetCompUnitStatus(s CompUnitStatus) error {
