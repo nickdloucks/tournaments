@@ -49,7 +49,7 @@ func TestNewGameEvent(t *testing.T) {
 			)
 		}
 	})
-	t.Run("init game event with zero actual participant", func(t *testing.T) {
+	t.Run("init game event with zero actual participants", func(t *testing.T) {
 		teamA := NewGenericParticipant(TbaParticipantName)
 		teamB := NewGenericParticipant(TbaParticipantName)
 
