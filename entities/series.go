@@ -11,13 +11,12 @@ type CompetitionSeries interface {
 	InviteParticipant(newParticipant TournamentParticipant, isHomeOrFav bool)
 }
 
-
-func incrementSeriesWinCount[S SeriesMatchEvent | SeriesSetEvent](p TournamentParticipant, series *S) error {
+func incrementSeriesWinCount[S MatchSeriesEvent | SetSeriesEvent](p TournamentParticipant, series *S) error {
 	if series == nil {
 		return errors.New("cannot increment win count on a nil series")
 	}
 	switch v := any(series).(type) {
-	case *SeriesMatchEvent:
+	case *MatchSeriesEvent:
 		if v.HomeOrFav.Id == p.Id {
 			v.HomeOrFavSetsWon += 1
 			return nil
@@ -27,7 +26,7 @@ func incrementSeriesWinCount[S SeriesMatchEvent | SeriesSetEvent](p TournamentPa
 		} else {
 			return errors.New("match participant not found")
 		}
-	case *SeriesSetEvent:
+	case *SetSeriesEvent:
 		if v.HomeOrFav.Id == p.Id {
 			v.HomeOrFavGamesWon += 1
 			return nil

@@ -6,8 +6,8 @@ import (
 
 type GameEvent struct {
 	Id             string
-	ParentMatch    *SeriesMatchEvent
-	ParentSet      *SeriesSetEvent
+	ParentMatch    *MatchSeriesEvent
+	ParentSet      *SetSeriesEvent
 	HomeOrFav      *TournamentParticipant
 	AwayOrUnderdog *TournamentParticipant
 	CompetitionEventResult

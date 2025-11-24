@@ -5,11 +5,11 @@ import (
 )
 
 func TestIncrementWinCount(t *testing.T) {
-	
-	t.Run("should result in the win count being one greater than previous", func(t *testing.T) {		
+
+	t.Run("should result in the win count being one greater than previous", func(t *testing.T) {
 		prevWinTotal := 0
 		homeTeam := NewGenericParticipant("homeTeam", 1)
-		match1 := &SeriesMatchEvent{
+		match1 := &MatchSeriesEvent{
 			HomeOrFav:        homeTeam,
 			HomeOrFavSetsWon: uint8(prevWinTotal),
 		}
