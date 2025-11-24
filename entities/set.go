@@ -28,3 +28,7 @@ func (s *SetSeriesEvent) CalcWinThreshold() (uint8, error) {
 	middle := float64(s.SetType / 2)
 	return uint8(math.Ceil(middle)), nil
 }
+
+func (s *SetSeriesEvent) IncrementWinCount(p TournamentParticipant) error {
+	return incrementSeriesWinCount[SetSeriesEvent](p, s)
+}
