@@ -1,7 +1,5 @@
 package entities
 
-import "errors"
-
 // The status of a competition unit (game, set, or match)
 type CompUnitStatus uint8
 
@@ -61,28 +59,4 @@ type CompetitionEventResult struct {
 	Loser          ParticipantOutcome `json:"loser"`
 	CompUnitStatus CompUnitStatus     `json:"competition_unit_status"`
 	TieAllowed     bool               `json:"tie_allowed"`
-}
-
-func IncrementParticipantWinTotalInSeries[S SeriesMatchEvent | SeriesSetEvent](p TournamentParticipant, series interface{}) error {
-	switch v := series.(type) {
-	case SeriesMatchEvent: 
-		if v.HomeOrFav.Id == p.Id {
-			v.HomeOrFavSetsWon += 1
-		} else if v.AwayOrUnderdog.Id == p.Id {
-			v.AwayOrUnderdogSetsWon += 1
-		} else {
-			return errors.New("match participant not found")
-		}
-	case SeriesSetEvent:
-		if v.HomeOrFav.Id == p.Id {
-			v.HomeOrFavGamesWon += 1
-		} else if v.AwayOrUnderdog.Id == p.Id {
-			v.AwayOrUnderdogGamesWon += 1
-		} else {
-			return errors.New("set participant not found")
-		}
-	default:
-		return errors.New("bad series type, cannot increment win total")
-	}
-	return nil
 }
