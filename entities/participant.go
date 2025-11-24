@@ -15,12 +15,13 @@ const (
 	TbaParticipantName = "TBA"
 )
 
+// TO-DO: need uuidv7
 func NewGenericParticipant(name GenericParticipantName, seed ...uint8) TournamentParticipant {
 	if len(seed) > 0 {
 		return TournamentParticipant{
 			Name: string(name),
 			Seed: seed[0],
-			// Id: NewUuidV7().String(),
+			Id: NewUuidV7().String(), // TO-DO
 		}
 	} else {
 		return TournamentParticipant{

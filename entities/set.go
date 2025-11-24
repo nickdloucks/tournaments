@@ -32,3 +32,14 @@ func (s *SetSeriesEvent) CalcWinThreshold() (uint8, error) {
 func (s *SetSeriesEvent) IncrementWinCount(p TournamentParticipant) error {
 	return incrementSeriesWinCount[SetSeriesEvent](p, s)
 }
+
+// TO-DO...
+func (s *SetSeriesEvent) DeclareSeriesWinner(TournamentParticipant) error {
+	// TO-DO...
+	return nil
+}
+
+// TO-DO...
+func (s *SetSeriesEvent) InviteParticipant(newParticipant TournamentParticipant, isHomeOrFav bool) {
+
+}

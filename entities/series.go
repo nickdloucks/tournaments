@@ -7,7 +7,7 @@ import (
 type CompetitionSeries interface {
 	CalcWinThreshold()
 	IncrementWinCount(TournamentParticipant) error
-	DeclareSeriesWinner(TournamentParticipant)
+	DeclareSeriesWinner(TournamentParticipant) error
 	InviteParticipant(newParticipant TournamentParticipant, isHomeOrFav bool)
 }
 
@@ -39,4 +39,8 @@ func incrementSeriesWinCount[S MatchSeriesEvent | SetSeriesEvent](p TournamentPa
 	default:
 		return errors.New("bad series type, cannot increment win total")
 	}
+}
+
+func declareSeriesWinner[S MatchSeriesEvent | SetSeriesEvent](s *S) error {
+	return nil
 }
