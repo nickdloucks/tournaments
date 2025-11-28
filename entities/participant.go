@@ -16,12 +16,12 @@ const (
 )
 
 // TO-DO: need uuidv7
-func NewGenericParticipant(name GenericParticipantName, seed ...uint8) TournamentParticipant {
+func NewGenericParticipant(name GenericParticipantName, uuidGen UuidGenerator, seed ...uint8) TournamentParticipant {
 	if len(seed) > 0 {
 		return TournamentParticipant{
 			Name: string(name),
 			Seed: seed[0],
-			Id: NewUuidV7().String(), // TO-DO
+			Id: string(uuidGen.NewUuidV7()), // TO-DO
 		}
 	} else {
 		return TournamentParticipant{

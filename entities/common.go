@@ -28,6 +28,12 @@ func (c CompUnitStatus) String() string {
 	}
 }
 
+type UuidV7 string
+
+type UuidGenerator interface {
+	NewUuidV7() UuidV7
+}
+
 // A SeriesType is a
 type SeriesType uint8
 
