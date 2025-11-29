@@ -21,6 +21,34 @@ type SetSeriesEvent struct {
 	CompetitionSeries
 }
 
+func NewSetSeriesEvent(
+		homeOrFav, awayOrUnderdog TournamentParticipant,
+		setType SeriesType, 
+		mfv MarginForVictory, 
+		parentMatch *MatchSeriesEvent,
+		tieAllowed bool,
+		invitesDeferred bool,
+		uuidGenerator UuidGenerator,
+	) *SetSeriesEvent{
+	
+	gamesList := map[uint8]*GameEvent{}
+	for i := uint8(0); i < uint8(setType); i++ {
+		gamesList[i] = NewGameEvent(&homeOrFav, &awayOrUnderdog, tieAllowed, invitesDeferred)
+	}
+
+	return &SetSeriesEvent{
+		Id: string(uuidGenerator.NewUuidV7()),
+		SetType: setType,
+		MFVInSet: mfv,
+		ParentMatch: parentMatch,
+		Games: gamesList,
+		HomeOrFav: homeOrFav,
+		AwayOrUnderdog: awayOrUnderdog,
+		HomeOrFavGamesWon: 0,
+		AwayOrUnderdogGamesWon: 0,
+	}
+}
+
 func (s *SetSeriesEvent) CalcWinThreshold() (uint8, error) {
 	if s.SetType == 0 {
 		return 0, fmt.Errorf("unsupported set type")
