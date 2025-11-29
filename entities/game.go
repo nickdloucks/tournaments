@@ -58,3 +58,11 @@ func (ge *GameEvent) FinalizeGame(resultPair OutcomePair) error {
 	ge.SetCompUnitStatus(Final)
 	return nil
 }
+
+func (ge *GameEvent) TieToSet(set *SetSeriesEvent) {
+	ge.ParentSet = set
+}
+
+func (ge *GameEvent) TieToMatch(match *MatchSeriesEvent) {
+	ge.ParentMatch = match
+}
