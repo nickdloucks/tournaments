@@ -13,14 +13,14 @@ type GameEvent struct {
 	CompetitionEventResult
 }
 
-func NewGameEvent(homeOrFavored *TournamentParticipant, awayOrUnderdog *TournamentParticipant, tieAllowed bool, invitesDeferred bool) GameEvent {
+func NewGameEvent(homeOrFavored *TournamentParticipant, awayOrUnderdog *TournamentParticipant, tieAllowed bool, invitesDeferred bool) *GameEvent {
 	var initialStatus CompUnitStatus
 	if invitesDeferred { // game will be scheduled, but Participants are not yet being invited
 		initialStatus = TBA
 	} else {
 		initialStatus = Upcoming
 	}
-	return GameEvent{
+	return &GameEvent{
 		CompetitionEventResult: CompetitionEventResult{
 			CompUnitStatus: initialStatus,
 			TieAllowed:     tieAllowed,
