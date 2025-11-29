@@ -4,9 +4,12 @@ import (
 	"testing"
 )
 
+var uuidv7generatorTestInstance UuidGenerator
+
 func TestDeclareSeriesWinner(t *testing.T) {
-	t1 := NewGenericParticipant("t1", 1)
-	t2 := NewGenericParticipant("t2", 2)
+	
+	t1 := NewGenericParticipant("t1", uuidv7generatorTestInstance, 1)
+	t2 := NewGenericParticipant("t2", uuidv7generatorTestInstance, 2)
 	series1 := &SetSeriesEvent{
 		MFVInSet: 1,
 		SetType: 1,

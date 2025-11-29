@@ -30,7 +30,7 @@ func TestNewGameEvent(t *testing.T) {
 	})
 	t.Run("init game event with only one actual participant", func(t *testing.T) {
 		teamA := TournamentParticipant{Name: "team_A"}
-		teamB := NewGenericParticipant(ByeParticipantName)
+		teamB := NewGenericParticipant(ByeParticipantName, uuidv7generatorTestInstance)
 
 		got := NewGameEvent(&teamA, &teamB, false, false)
 		want := GameEvent{
@@ -50,8 +50,8 @@ func TestNewGameEvent(t *testing.T) {
 		}
 	})
 	t.Run("init game event with zero actual participants", func(t *testing.T) {
-		teamA := NewGenericParticipant(TbaParticipantName)
-		teamB := NewGenericParticipant(TbaParticipantName)
+		teamA := NewGenericParticipant(TbaParticipantName, uuidv7generatorTestInstance)
+		teamB := NewGenericParticipant(TbaParticipantName, uuidv7generatorTestInstance)
 
 		got := NewGameEvent(&teamA, &teamB, false, true)
 		want := GameEvent{
